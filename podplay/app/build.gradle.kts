@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.converter)
     implementation(libs.androidx.recyclerview)
     implementation(libs.glide)
+    implementation(libs.androidx.fragment)
+    implementation(libs.fragment.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
