@@ -23,6 +23,7 @@ import com.trios2024evdj.podplay.databinding.ActivityPodcastBinding
 import com.trios2024evdj.podplay.repository.ItunesRepo
 import com.trios2024evdj.podplay.repository.PodcastRepo
 import com.trios2024evdj.podplay.service.ItunesService
+import com.trios2024evdj.podplay.service.RssFeedService
 import com.trios2024evdj.podplay.viewmodel.PodcastViewModel
 import com.trios2024evdj.podplay.viewmodel.SearchViewModel
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +62,7 @@ class PodcastActivity : AppCompatActivity(),
         setupToolbar()
         setupViewModels()
         updateControls()
+        createSubscription()
         handleIntent(intent)
         addBackStackListener()
 
@@ -117,7 +119,7 @@ class PodcastActivity : AppCompatActivity(),
     private fun setupViewModels() {
         val service = ItunesService.instance
         searchViewModel.iTunesRepo = ItunesRepo(service)
-        podcastViewModel.podcastRepo = PodcastRepo()
+        podcastViewModel.podcastRepo = PodcastRepo(RssFeedService.instance)
     }
 
     private fun updateControls() {
@@ -134,24 +136,24 @@ class PodcastActivity : AppCompatActivity(),
         databinding.podcastRecyclerView.adapter = podcastListAdapter
     }
 
-    override fun onShowDetails(podcastSummaryViewData:
-                               SearchViewModel.PodcastSummaryViewData) {
-        // 1
-        val feedUrl = podcastSummaryViewData.feedUrl ?: return
-        // 2
-        showProgressBar()
-        // 3
-        val podcast = podcastViewModel.getPodcast(podcastSummaryViewData)
-        // 4
-        hideProgressBar()
-        if (podcast != null) {
-            // 5
-            showDetailsFragment()
-        } else {
-            // 6
-            showError("Error loading feed $feedUrl")
+    override fun onShowDetails(podcastSummaryViewData: SearchViewModel.PodcastSummaryViewData) {
+        podcastSummaryViewData.feedUrl?.let {
+            showProgressBar()
+            podcastViewModel.getPodcast(podcastSummaryViewData)
         }
     }
+
+    private fun createSubscription() {
+        podcastViewModel.podcastLiveData.observe(this, {
+            hideProgressBar()
+            if (it != null) {
+                showDetailsFragment()
+            } else {
+                showError("Error loading feed")
+            }
+        })
+    }
+
 
     private fun showProgressBar() {
         databinding.progressBar.visibility = View.VISIBLE
