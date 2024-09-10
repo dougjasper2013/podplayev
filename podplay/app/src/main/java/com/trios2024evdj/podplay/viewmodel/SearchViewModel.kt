@@ -13,7 +13,8 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         var name: String? = "",
         var lastUpdated: String? = "",
         var imageUrl: String? = "",
-        var feedUrl: String? = "")
+        var feedUrl: String? = "",
+        var country: String? = "")
 
     private fun itunesPodcastToPodcastSummaryView(
         itunesPodcast: PodcastResponse.ItunesPodcast):
@@ -22,7 +23,8 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
             itunesPodcast.collectionCensoredName,
             DateUtils.jsonDateToShortDate(itunesPodcast.releaseDate),
             itunesPodcast.artworkUrl30,
-            itunesPodcast.feedUrl)
+            itunesPodcast.feedUrl,
+            itunesPodcast.country)
     }
 
     // 1

@@ -44,7 +44,7 @@ class PodcastDetailsFragment : Fragment() {
     private fun updateControls() {
         val viewData = podcastViewModel.activePodcastViewData ?: return
         databinding.feedTitleTextView.text = viewData.feedTitle
-        databinding.feedDescTextView.text = viewData.feedDesc
+        databinding.feedDescTextView.text = viewData.country
         activity?.let { activity ->
             Glide.with(activity).load(viewData.imageUrl).into(databinding.feedImageView)
         }

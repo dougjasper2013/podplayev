@@ -8,6 +8,7 @@ data class Podcast(
     var feedDesc: String = "",
     var imageUrl: String = "",
     var lastUpdated: Date = Date(),
+    var country: String = "",
     var episodes: List<Episode> = listOf()
 )
 

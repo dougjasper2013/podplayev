@@ -16,7 +16,7 @@ class PodcastViewModel(application: Application) : AndroidViewModel(application)
         var subscribed: Boolean = false,
         var feedTitle: String? = "",
         var feedUrl: String? = "",
-        var feedDesc: String? = "",
+        var country: String? = "",
         var imageUrl: String? = "",
         var episodes: List<EpisodeViewData>
     )
@@ -48,7 +48,7 @@ class PodcastViewModel(application: Application) : AndroidViewModel(application)
             false,
             podcast.feedTitle,
             podcast.feedUrl,
-            podcast.feedDesc,
+            podcast.country,
             podcast.imageUrl,
             episodesToEpisodesView(podcast.episodes)
         )
@@ -67,6 +67,10 @@ class PodcastViewModel(application: Application) : AndroidViewModel(application)
             it.feedTitle = podcastSummaryViewData.name ?: ""
             // 6
             it.imageUrl = podcastSummaryViewData.imageUrl ?: ""
+
+            // 6
+            it.country = podcastSummaryViewData.country ?: ""
+
             // 7
             activePodcastViewData = podcastToPodcastView(it)
             // 8
